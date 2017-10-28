@@ -1,0 +1,16 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "module": "es6",
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "listFiles": true,
+        "listEmittedFiles": true
+    },
+    "files": [
+        "./src/InputRow.ts",
+        "./src/AsciiBarGraph.ts",
+        "./src/demo.ts"
+    ]
+}
