@@ -3,3 +3,5 @@ interface InputRow {
   value: number;
   [x: string]: any;
 }
+
+export default InputRow;

@@ -7,9 +7,9 @@ const at = new AsciiBarGraph(
             label: 'one',
             value: 4,
         }
-    ],
-    {
-        xLabel: '',
-        yLabel: '',
-    }
+    ]
 );
+
+const output = at.generate();
+
+console.log(`\n\n${output}\n\n`);

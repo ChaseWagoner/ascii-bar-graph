@@ -1,12 +1,11 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "module": "es6",
+        "target": "es5",
+        "module": "commonjs",
         "noImplicitAny": true,
         "sourceMap": true,
-        "outDir": "./dist",
-        "listFiles": true,
-        "listEmittedFiles": true
+        "outDir": "./dist"
     },
     "files": [
         "./src/InputRow.ts",
