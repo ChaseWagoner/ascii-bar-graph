@@ -32,7 +32,7 @@ export class AsciiBarGraph {
 
     const marginLeftOfBar = Array(this.config.yLabel.length + 3).join(' ');
 
-    const barWidth = 6;
+    const barWidth = dataLabelWidth;
 
     let output = '';
 
