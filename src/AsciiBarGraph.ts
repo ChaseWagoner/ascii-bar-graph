@@ -1,11 +1,12 @@
 import InputRow from './InputRow';
-import {BarCharMap, BarCharMappings} from './BarChars';
+import { BarCharMap, BarCharMappings } from './BarChars';
+import { strRepeat, pad } from './utils';
 
 class AsciiBarGraphConfig {
   xLabel?: string = '';
-  horizontalMargin?: number = 4;
-
   yLabel?: string = '';
+
+  horizontalMargin?: number = 4;
 
   [x: string]: any;
 }
@@ -28,9 +29,9 @@ export class AsciiBarGraph {
       return (curr.label.length > prev) ? curr.label.length : prev;
     }, 0);
 
-    const horizontalMarginSpaces = Array(this.config.horizontalMargin + 1).join(' ');
+    const horizontalMarginSpaces = strRepeat(this.config.horizontalMargin);
 
-    const marginLeftOfBar = Array(this.config.yLabel.length + 3).join(' ');
+    const marginLeftOfBar = strRepeat(this.config.yLabel.length + 2);
 
     const barWidth = dataLabelWidth;
 
@@ -63,7 +64,7 @@ export class AsciiBarGraph {
           chars = BarCharMappings.MID_LINE;
         }
 
-        output += chars.left + Array(barWidth - 1).join(chars.inner) + chars.right;
+        output += chars.left + strRepeat(barWidth - 2, chars.inner) + chars.right;
       });
 
       output += '\n';
@@ -73,29 +74,32 @@ export class AsciiBarGraph {
     output += `${marginLeftOfBar}┗`;
 
     this.data.forEach((datum: InputRow) => {
-      output += Array(this.config.horizontalMargin + 1).join('━')
+      output += strRepeat(this.config.horizontalMargin, '━')
         + BarCharMappings.BOTTOM_LINE.left
-        + Array(barWidth - 1).join(BarCharMappings.BOTTOM_LINE.inner)
+        + strRepeat(barWidth - 2, BarCharMappings.BOTTOM_LINE.inner)
         + BarCharMappings.BOTTOM_LINE.right;
     });
 
-    output += Array(this.config.horizontalMargin + 1).join('━') + '\n';
+    output += strRepeat(this.config.horizontalMargin, '━') + '\n';
 
     // Label each bar
     output += `${marginLeftOfBar} `;
     this.data.forEach((datum: InputRow) => {
       output += horizontalMarginSpaces;
 
-      let label = datum.label;
-
-      if (label.length < barWidth) {
-        const leftPad = Math.floor((barWidth - label.length) / 2);
-        const rightPad = barWidth - label.length - leftPad;
-        label = `${Array(leftPad + 1).join(' ')}${label}${Array(rightPad + 1).join(' ')}`;
-      }
-
-      output += label;
+      output += pad.center(datum.label, barWidth);
     });
+
+    // Add x-axis label if set
+    if (this.config.xLabel.length) {
+      output += `\n${marginLeftOfBar}`;
+
+      const tableWidth = 1
+        + this.config.horizontalMargin * (this.data.length + 1)
+        + this.data.length * barWidth;
+
+      output += pad.center(this.config.xLabel, tableWidth);
+    }
 
     return output;
   }
