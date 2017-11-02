@@ -1,0 +1,21 @@
+{
+    "version": "0.0.1",
+    "name": "ascii-bar-graph",
+    "description": "A simple way to create ASCII bar graphs.",
+    "license": "MIT",
+    "homepage": "https://github.com/ChaseWagoner/ascii-bar-graph",
+    "bugs": {
+        "url": "https://github.com/ChaseWagoner/ascii-bar-graph/issues"
+    },
+    "author": {
+        "name": "Chase Wagoner",
+        "url": "https://github.com/ChaseWagoner"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ChaseWagoner/ascii-bar-graph"
+    },
+    "devDependencies": {
+        "typescript": "2.6.*"
+    }
+}
