@@ -29,24 +29,30 @@ export class AsciiBarGraph {
     }, 0);
 
     const horizontalMarginSpaces = Array(this.config.horizontalMargin + 1).join(' ');
-    console.log(`spaces: '${horizontalMarginSpaces}'`);
 
-    const barWidth = 4;
+    const marginLeftOfBar = Array(this.config.yLabel.length + 3).join(' ');
+
+    const barWidth = 6;
 
     let output = '';
 
     for (let line = dataLineCount + 1; line > 0; line--) {
       if (line === yLabelLine) {
-        output += this.config.yLabel;
+        output += ` ${this.config.yLabel} `;
+      }
+      else {
+        output += marginLeftOfBar;
       }
 
-      output += `┃${horizontalMarginSpaces}`;
+      output += '┃';
 
       const lineValue = line;
 
       let chars: BarCharMap = null;
 
       this.data.forEach((datum: InputRow) => {
+        output += horizontalMarginSpaces;
+
         if (lineValue > datum.value) {
           chars = BarCharMappings.SPACES;
         }
@@ -57,26 +63,26 @@ export class AsciiBarGraph {
           chars = BarCharMappings.MID_LINE;
         }
 
-        output += chars.left + Array(barWidth + 1).join(chars.inner) + chars.right;
+        output += chars.left + Array(barWidth - 1).join(chars.inner) + chars.right;
       });
 
       output += '\n';
     }
 
     // Print bottom line
-    output += '┗';
+    output += `${marginLeftOfBar}┗`;
 
     this.data.forEach((datum: InputRow) => {
       output += Array(this.config.horizontalMargin + 1).join('━')
         + BarCharMappings.BOTTOM_LINE.left
-        + Array(barWidth + 1).join(BarCharMappings.BOTTOM_LINE.inner)
+        + Array(barWidth - 1).join(BarCharMappings.BOTTOM_LINE.inner)
         + BarCharMappings.BOTTOM_LINE.right;
     });
 
     output += Array(this.config.horizontalMargin + 1).join('━') + '\n';
 
     // Label each bar
-    output += '  ';
+    output += `${marginLeftOfBar} `;
     this.data.forEach((datum: InputRow) => {
       output += horizontalMarginSpaces;
 

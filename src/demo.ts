@@ -3,11 +3,17 @@ import {AsciiBarGraph} from './AsciiBarGraph';
 const at = new AsciiBarGraph(
     [
         {
-            some: 'thing',
-            label: 'one',
+            label: 'four',
             value: 4,
-        }
-    ]
+        },
+        {
+            label: 'five',
+            value: 5,
+        },
+    ],
+    {
+        yLabel: 'y-axis',
+    }
 );
 
 const output = at.generate();
