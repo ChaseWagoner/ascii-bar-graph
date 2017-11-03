@@ -18,6 +18,7 @@ const at = new AsciiBarGraph(
   {
     yLabel: 'y-axis',
     xLabel: 'my x-axis',
+    barWidth: 6
   }
 );
 

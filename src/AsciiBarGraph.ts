@@ -7,6 +7,7 @@ class AsciiBarGraphConfig {
   yLabel?: string = '';
 
   horizontalMargin?: number = 4;
+  barWidth?: number|string = 'auto';
 
   [x: string]: any;
 }
@@ -23,7 +24,7 @@ export class AsciiBarGraph {
     const dataLineCount = this.data.reduce((prev: number, curr: InputRow) => {
       return (curr.value > prev) ? curr.value : prev;
     }, 0);
-    const yLabelLine = Math.ceil(dataLineCount / 2);
+    const yLabelLine = Math.ceil((dataLineCount + 1)/ 2);
 
     const dataLabelWidth = this.data.reduce((prev: number, curr: InputRow) => {
       return (curr.label.length > prev) ? curr.label.length : prev;
@@ -33,7 +34,9 @@ export class AsciiBarGraph {
 
     const marginLeftOfBar = strRepeat(this.config.yLabel.length + 2);
 
-    const barWidth = dataLabelWidth;
+    const barWidth = this.config.barWidth === 'auto'
+      ? dataLabelWidth
+      : this.config.barWidth as number;
 
     let output = '';
 
@@ -83,12 +86,13 @@ export class AsciiBarGraph {
     output += strRepeat(this.config.horizontalMargin, '━') + '\n';
 
     // Label each bar
-    output += `${marginLeftOfBar} `;
-    this.data.forEach((datum: InputRow) => {
-      output += horizontalMarginSpaces;
-
-      output += pad.center(datum.label, barWidth);
+    output += `${marginLeftOfBar} ${horizontalMarginSpaces}`;
+    const labelsOutput = this.data.map((datum: InputRow) => {
+      const label = datum.label.substr(0, barWidth);
+      return pad.center(label, barWidth);
     });
+
+    output += labelsOutput.join(horizontalMarginSpaces);
 
     // Add x-axis label if set
     if (this.config.xLabel.length) {
